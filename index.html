@@ -15,10 +15,23 @@
     to {opacity: 1; transform: translateY(0);}
   }
 
+  @keyframes float {
+    0% {transform: translateY(100vh) scale(1);}
+    100% {transform: translateY(-10vh) scale(1.2);}
+  }
+
+  /* Confetti animation */
+  @keyframes confetti-fall {
+    0% {transform: translateY(-100vh) rotateZ(0deg); opacity: 0;}
+    10% {opacity: 1;}
+    100% {transform: translateY(100vh) rotateZ(720deg); opacity: 0.8;}
+  }
+
   body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
     height: 100vh;
+    overflow: hidden; /* Hide scrollbars for animations */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,12 +41,15 @@
     background: linear-gradient(-45deg, #ff6a00, #ee0979, #ffcc70, #ff8a00);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
+    position: relative; /* For confetti positioning */
   }
 
   h1 {
     font-size: 48px;
     margin-bottom: 20px;
     animation: fadeIn 2s ease forwards;
+    position: relative;
+    z-index: 1;
   }
 
   p {
@@ -41,6 +57,8 @@
     max-width: 700px;
     line-height: 1.6;
     animation: fadeIn 3s ease forwards;
+    position: relative;
+    z-index: 1;
   }
 
   a {
@@ -54,6 +72,8 @@
     font-weight: bold;
     transition: 0.3s;
     animation: fadeIn 4s ease forwards;
+    position: relative;
+    z-index: 1;
   }
 
   a:hover {
@@ -65,11 +85,42 @@
   audio {
     display: none;
   }
+
+  /* 🎈 Balloons */
+  .balloon {
+    position: absolute;
+    bottom: -150px;
+    width: 60px;
+    height: 80px;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: float 10s linear infinite;
+    z-index: 0; /* Behind text */
+  }
+
+  /* ✨ Confetti */
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ffd700; /* Gold */
+    border-radius: 50%;
+    animation: confetti-fall 10s linear infinite;
+    opacity: 0;
+    z-index: 2; /* In front of text */
+  }
+
+  .confetti:nth-child(2n) { background-color: #ff69b4; /* Hot Pink */ }
+  .confetti:nth-child(3n) { background-color: #00bfff; /* Deep Sky Blue */ }
+  .confetti:nth-child(4n) { background-color: #32cd32; /* Lime Green */ }
+  .confetti:nth-child(5n) { background-color: #ff4500; /* Orange Red */ }
+
 </style>
 </head>
 <body>
   <audio autoplay loop>
     <source src="music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
   </audio>
 
   <h1>🎉 Happy Birthday Wahab! 🎉</h1>
@@ -81,5 +132,30 @@
     Tumhari smile aur dosti dono hamesha aise hi roshan rahein 💫
   </p>
   <a href="./birthday.mp4">💖 Yahan click karo apna surprise video dekhne ke liye 🎬</a>
+
+  <script>
+    // 🎈 Balloons
+    const balloonColors = ['#ff4d4d', '#ffd633', '#66ff66', '#66b3ff', '#ff99ff'];
+    for (let i = 0; i < 15; i++) { // Increased number of balloons
+      let b = document.createElement('div');
+      b.className = 'balloon';
+      b.style.left = Math.random() * 100 + 'vw';
+      b.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+      b.style.animationDuration = (10 + Math.random() * 10) + 's'; // Varied duration
+      b.style.animationDelay = (Math.random() * 10) + 's'; // Varied start time
+      document.body.appendChild(b);
+    }
+
+    // ✨ Confetti
+    for (let i = 0; i < 50; i++) { // Increased number of confetti
+      let c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = Math.random() * 100 + 'vh'; // Start from top
+      c.style.animationDuration = (8 + Math.random() * 7) + 's';
+      c.style.animationDelay = (Math.random() * 10) + 's';
+      document.body.appendChild(c);
+    }
+  </script>
 </body>
 </html>
