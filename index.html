@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday Wahab!</title>
+<title>Happy Birthday Wahab! 💖</title>
 <style>
+  /* --- KEYFRAMES --- */
   @keyframes gradient {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
@@ -14,48 +15,89 @@
     from {opacity: 0; transform: translateY(20px);}
     to {opacity: 1; transform: translateY(0);}
   }
+  
+  /* New: Wobble/Vibrate effect for H1 */
+  @keyframes wobble {
+    0%, 100% {transform: rotate(0deg);}
+    15% {transform: rotate(-0.5deg);}
+    30% {transform: rotate(0.5deg);}
+    45% {transform: rotate(-0.5deg);}
+    60% {transform: rotate(0.5deg);}
+  }
 
   @keyframes float {
     0% {transform: translateY(100vh) scale(1);}
     100% {transform: translateY(-10vh) scale(1.2);}
   }
 
-  /* Confetti animation */
-  @keyframes confetti-fall {
-    0% {transform: translateY(-100vh) rotateZ(0deg); opacity: 0;}
-    10% {opacity: 1;}
-    100% {transform: translateY(100vh) rotateZ(720deg); opacity: 0.8;}
+  @keyframes pulse {
+    0% {box-shadow: 0 0 0 0 rgba(255, 102, 0, 0.7);}
+    70% {box-shadow: 0 0 0 20px rgba(255, 102, 0, 0);}
+    100% {box-shadow: 0 0 0 0 rgba(255, 102, 0, 0);}
   }
 
+  /* --- BODY & TEXT STYLES --- */
   body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
     height: 100vh;
-    overflow: hidden; /* Hide scrollbars for animations */
+    overflow: hidden; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
     text-align: center;
-    background: linear-gradient(-45deg, #ff6a00, #ee0979, #ffcc70, #ff8a00);
+    background: linear-gradient(-45deg, #ff4d4d, #ff8a00, #ffcc70, #ff4d4d); 
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
-    position: relative; /* For confetti positioning */
+    position: relative; 
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="fill:white;"><circle cx="16" cy="16" r="4"/></svg>') 16 16, auto; /* Custom cursor */
   }
 
+  /* New: Start Screen for music playback on mobile */
+  #start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: opacity 0.5s;
+    font-size: 24px;
+  }
+  #start-screen button {
+    padding: 15px 30px;
+    margin-top: 20px;
+    background: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+
   h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-    animation: fadeIn 2s ease forwards;
+    font-size: 52px; 
+    margin-bottom: 25px;
+    animation: fadeIn 2s ease forwards, wobble 5s infinite; /* Added wobble effect */
     position: relative;
     z-index: 1;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    line-height: 1.2;
   }
 
   p {
-    font-size: 20px;
-    max-width: 700px;
-    line-height: 1.6;
+    font-size: 22px; 
+    max-width: 800px;
+    line-height: 1.7;
     animation: fadeIn 3s ease forwards;
     position: relative;
     z-index: 1;
@@ -63,30 +105,29 @@
 
   a {
     display: inline-block;
-    margin-top: 40px;
+    margin-top: 50px;
     background: white;
     color: #ff6600;
-    padding: 15px 35px;
-    border-radius: 12px;
-    text-decoration: none;
+    padding: 18px 40px; 
+    border-radius: 50px; 
+    font-size: 20px;
     font-weight: bold;
     transition: 0.3s;
-    animation: fadeIn 4s ease forwards;
+    animation: fadeIn 4s ease forwards, pulse 2s infinite; 
     position: relative;
     z-index: 1;
   }
 
   a:hover {
-    background: #ff6600;
+    background: #ff4500; 
     color: white;
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
 
   audio {
     display: none;
   }
 
-  /* 🎈 Balloons */
   .balloon {
     position: absolute;
     bottom: -150px;
@@ -95,35 +136,38 @@
     border-radius: 50%;
     opacity: 0.8;
     animation: float 10s linear infinite;
-    z-index: 0; /* Behind text */
+    z-index: 0;
+    box-shadow: inset -5px -5px 5px rgba(0,0,0,0.2); 
   }
 
-  /* ✨ Confetti */
-  .confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #ffd700; /* Gold */
+  /* --- Mouse Trail Sparkle --- */
+  .sparkle-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: white;
     border-radius: 50%;
-    animation: confetti-fall 10s linear infinite;
+    pointer-events: none;
+    z-index: 999;
     opacity: 0;
-    z-index: 2; /* In front of text */
+    transform: scale(0);
+    transition: transform 0.5s, opacity 0.5s;
+    box-shadow: 0 0 10px #fff;
   }
-
-  .confetti:nth-child(2n) { background-color: #ff69b4; /* Hot Pink */ }
-  .confetti:nth-child(3n) { background-color: #00bfff; /* Deep Sky Blue */ }
-  .confetti:nth-child(4n) { background-color: #32cd32; /* Lime Green */ }
-  .confetti:nth-child(5n) { background-color: #ff4500; /* Orange Red */ }
-
 </style>
 </head>
 <body>
-  <audio autoplay loop>
+  <div id="start-screen">
+    <p>Tap karein apna surprise shuru karne ke liye!</p>
+    <button onclick="startGame()">Start Surprise 🎉</button>
+  </div>
+  
+  <audio id="bday-audio" loop>
     <source src="music.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
-  <h1>🎉 Happy Birthday Wahab! 🎉</h1>
+  <h1>💖 Happy Birthday Wahab! 💖</h1>
   <p>
     Wahab, tum meri life ke un khaas logo me se ho jo hamesha khushi aur muskurahat le aate hain.  
     Tum jaisay dost milna naseeb walon ko hota hai.  
@@ -131,31 +175,113 @@
     Har saal tumhara din pichlay saal se zyada behtareen ho.  
     Tumhari smile aur dosti dono hamesha aise hi roshan rahein 💫
   </p>
-  <a href="./birthday.mp4">💖 Yahan click karo apna surprise video dekhne ke liye 🎬</a>
+  <a href="./birthday.mp4">✨ Yahan click karo apna surprise video dekhne ke liye 🎥</a>
 
-  <script>
-    // 🎈 Balloons
+  <div id="confetti-container"></div>
+  
+
+<script>
+    const audio = document.getElementById('bday-audio');
+    const startScreen = document.getElementById('start-screen');
+
+    function startGame() {
+        audio.play().catch(e => console.log("Music play blocked:", e)); // Try playing music
+        startScreen.style.opacity = '0';
+        setTimeout(() => startScreen.style.display = 'none', 500); // Hide screen after fade
+        fireConfettiCannon(); // Fire cannon after user interaction
+    }
+
+    // --- 🎈 BALLOON GENERATOR ---
     const balloonColors = ['#ff4d4d', '#ffd633', '#66ff66', '#66b3ff', '#ff99ff'];
-    for (let i = 0; i < 15; i++) { // Increased number of balloons
+    for (let i = 0; i < 15; i++) { 
       let b = document.createElement('div');
       b.className = 'balloon';
       b.style.left = Math.random() * 100 + 'vw';
       b.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-      b.style.animationDuration = (10 + Math.random() * 10) + 's'; // Varied duration
-      b.style.animationDelay = (Math.random() * 10) + 's'; // Varied start time
+      b.style.animationDuration = (10 + Math.random() * 10) + 's';
+      b.style.animationDelay = (Math.random() * 10) + 's';
       document.body.appendChild(b);
     }
+    
+    // --- 💥 CONFETTI CANNON EFFECT (Function added to startGame) ---
+    const confettiColors = ['#ffd700', '#ff69b4', '#00bfff', '#32cd32', '#ff4500'];
+    const container = document.getElementById('confetti-container');
 
-    // ✨ Confetti
-    for (let i = 0; i < 50; i++) { // Increased number of confetti
-      let c = document.createElement('div');
-      c.className = 'confetti';
-      c.style.left = Math.random() * 100 + 'vw';
-      c.style.top = Math.random() * 100 + 'vh'; // Start from top
-      c.style.animationDuration = (8 + Math.random() * 7) + 's';
-      c.style.animationDelay = (Math.random() * 10) + 's';
-      document.body.appendChild(c);
+    function createConfetti(x, y) {
+        let c = document.createElement('div');
+        c.style.width = '10px';
+        c.style.height = '10px';
+        c.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        c.style.position = 'absolute';
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        c.style.left = x + 'px';
+        c.style.top = y + 'px';
+        c.style.opacity = 1;
+
+        const angle = Math.random() * 360;
+        const velocity = Math.random() * 100 + 50; 
+        const duration = Math.random() * 2 + 1;
+
+        c.style.transform = `translate(-50%, -50%) rotateZ(${Math.random() * 360}deg)`;
+        c.style.transition = `transform ${duration}s ease-out, opacity ${duration}s linear`;
+        
+        setTimeout(() => {
+            const endX = Math.cos(angle * Math.PI / 180) * velocity + x;
+            const endY = Math.sin(angle * Math.PI / 180) * velocity + y;
+            c.style.transform = `translate(${endX - x}px, ${endY - y}px) rotateZ(${Math.random() * 720}deg)`;
+            c.style.opacity = 0;
+            
+            setTimeout(() => c.remove(), duration * 1000);
+        }, 50);
+
+        container.appendChild(c);
     }
+
+    function fireConfettiCannon() {
+        // Fire from the center of the screen
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        for(let i = 0; i < 150; i++) { 
+            createConfetti(centerX, centerY);
+        }
+    }
+    
+    // --- ✨ MOUSE/TOUCH TRAIL EFFECT ---
+    document.addEventListener('mousemove', createTrail);
+    document.addEventListener('touchstart', (e) => createTrail(e.touches[0]));
+    document.addEventListener('touchmove', (e) => createTrail(e.touches[0]));
+
+    function createTrail(e) {
+        const x = e.clientX || e.pageX;
+        const y = e.clientY || e.pageY;
+
+        // Only create a sparkle randomly (to avoid too many)
+        if (Math.random() < 0.2) return; 
+
+        let s = document.createElement('div');
+        s.className = 'sparkle-dot';
+        s.style.left = x + 'px';
+        s.style.top = y + 'px';
+        document.body.appendChild(s);
+
+        // Animate the sparkle (fade out and shrink)
+        setTimeout(() => {
+            s.style.opacity = '0';
+            s.style.transform = 'scale(0.2)';
+        }, 10);
+        
+        // Remove after animation
+        setTimeout(() => s.remove(), 500);
+    }
+    
+    // Fallback if music is already blocked by browser (will still need user interaction)
+    if (audio.paused) {
+        startScreen.style.display = 'flex';
+    } else {
+        startScreen.style.display = 'none';
+        fireConfettiCannon(); // Fire cannon if music started automatically
+    }
+
   </script>
 </body>
 </html>
